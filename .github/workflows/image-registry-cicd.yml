@@ -3,6 +3,7 @@
 # 현재 이 저장소 기준 대상은 config, discovery, apigateway 세 모듈이다.
 name: image-registry-cicd
 
+
 on:
   # GitHub Actions 화면에서 버튼으로 직접 실행할 수 있게 한다.
   workflow_dispatch:
