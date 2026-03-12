@@ -87,10 +87,10 @@ jobs:
       # PUSH_IMAGE=true 이므로 build_docker.sh 내부에서 docker push까지 같이 수행된다.
       # LOAD_TO_MINIKUBE는 로컬 minikube용 옵션이라
       # GitHub Actions에서는 false로 꺼 두는 것이 맞다.
-      - name: Prepare image URI # 레지스트리 경로와 태그 조합
+      - name: Prepare image URI
         id: prepare-image
         run: |
-          IMAGE_PATH="${IMAGE_REGISTRY}/$(echo "${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
+          IMAGE_PATH="${IMAGE_REGISTRY}/${{ matrix.module_name }}"
           echo "image=${IMAGE_PATH}:${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
           echo "latest=${IMAGE_PATH}:latest" >> "$GITHUB_OUTPUT"
 
