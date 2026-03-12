@@ -1,0 +1,55 @@
+name: apigateway-registry
+
+on:
+  workflow-dispatch:
+  push:
+    branches:
+      - main-gateway
+    paths:
+      - "apigateway/**"
+      - ".github/workflows/apigateway-register.yml"
+concurrency:
+  group: apigateway-registry
+  cancel-in-progess: true
+
+permission:
+  contents: read
+  package: write
+
+jobs:
+  build-and-push:
+    name: apigateway 이미지 빌드 및 푸시
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 이미지 태그 준비
+        shell: bash
+        run: |
+          echo "IMAGE_PATH=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/apigateway" >> "${GITHUB_ENV}"
+          echo "IMAGE_TAG=${GITHUB_SHA::7}" >> "${GITHUB_ENV}"
+
+      - name: GHCR 로그인
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Dockerfile 기반 이미지 빌드 및 푸시
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apigateway
+          file: ./apigateway/Dockerfile
+          push: true
+          tags: |
+            ${{ env.IMAGE_PATH }}:${{ env.IMAGE_TAG }}
+            ${{ env.IMAGE_PATH }}:latest
+
+      - name: 결과 출력
+        shell: bash
+        run: |
+          echo "완료 이미지: ${IMAGE_PATH}:${IMAGE_TAG}
+          echo "완려 이미지: ${IMAGE_PATH}:latest"
