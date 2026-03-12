@@ -11,6 +11,7 @@ on:
     branches:
       - main
       - master
+      - main-gateway
     # 아래 경로가 바뀐 경우에만 실행해서 불필요한 빌드를 줄인다.
     paths:
       - "config/**"
