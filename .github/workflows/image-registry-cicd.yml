@@ -44,9 +44,10 @@ jobs:
       matrix:
         # include를 쓰면 서비스별 폴더 경로와 이미지 이름을 한 번에 관리할 수 있다.
         include:
+
           - module_name: apigateway
             module_dir: apigateway
-            image_name: apigateway
+            image_name: local/apigateway:dev
 
     steps:
       # 현재 저장소 코드를 runner로 내려받는다.
@@ -89,7 +90,7 @@ jobs:
       - name: Prepare image URI # 레지스트리 경로와 태그 조합
         id: prepare-image
         run: |
-          IMAGE_PATH="${REGISTRY}/$(echo "${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
+          IMAGE_PATH="${IMAGE_REGISTRY}/$(echo "${IMAGE_NAME}" | tr '[:upper:]' '[:lower:]')"
           echo "image=${IMAGE_PATH}:${IMAGE_TAG}" >> "$GITHUB_OUTPUT"
           echo "latest=${IMAGE_PATH}:latest" >> "$GITHUB_OUTPUT"
 
