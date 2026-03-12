@@ -44,12 +44,6 @@ jobs:
       matrix:
         # include를 쓰면 서비스별 폴더 경로와 이미지 이름을 한 번에 관리할 수 있다.
         include:
-          - module_name: config
-            module_dir: config
-            image_name: config
-          - module_name: discovery
-            module_dir: discovery
-            image_name: discovery
           - module_name: apigateway
             module_dir: apigateway
             image_name: apigateway
