@@ -98,7 +98,7 @@ jobs:
       - name: Build and push image # Dockerfile 기반 이미지 빌드 및 푸시
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ${{ matrix.module_dir }}
           push: true
           tags: |
             ${{ steps.prepare-image.outputs.image }}
